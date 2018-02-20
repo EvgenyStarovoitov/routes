@@ -2,11 +2,13 @@ const express         = require('express');
 const app             = express();
 const bodyParser      = require('body-parser');
 const cors            = require('cors');
+const PORT            = process.env.PORT || 3010;
 
-
-const PORT = process.env.PORT || 3010;
-
-let data = [{"Cur_ID":298,"Date":"2016-07-05T00:00:00","Cur_Abbreviation":"RUB","Cur_Scale":100,"Cur_Name":"Российских рублей","Cur_OfficialRate":3.1318}];
+let data = [
+  { value: '01', text: 'ИП Фридман М.М.' },
+  { value: '02', text: 'ООО «Виктори»' },
+  { value: '03', text: 'ФГУП НПП ВНИИЭМ' }
+];
 
 let logger = ( req, res, next) => {
   console.log(`req in time: ${new Date()}`);
@@ -18,7 +20,7 @@ app.use(logger);
 app.use(cors());
 
 app.get('/', (req, res) => {
-  res.send(data);
+  res.json(data);
 });
 
 app.listen(PORT, ()=> {

@@ -1,4 +1,5 @@
 import React from 'react';
+import fetch from 'node-fetch';
 
 import './App.css';
 
@@ -24,8 +25,24 @@ export default class App extends React.Component {
       messange: '',
       attachedFile: ''
     },
-    checked: false
+    checked: false,
+    selectOption: []
   };
+
+  componentWillMount() {
+    const getSelectData = this.handleReq('http://127.0.0.1:3010/');
+
+    console.log(getSelectData);
+
+    Promise.all([ getSelectData ])
+      .then((data) => {
+        this.setState({ selectOption:data[0] });
+        console.log(this.state.selectOption);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   handleCheck = (val) => {
     this.setState({ checked:val });
@@ -43,14 +60,13 @@ export default class App extends React.Component {
   };
 
   handleSendButton = () => {
-    console.log(JSON.stringify(this.state.formData));
+    console.log(JSON.stringify(this.state));
   };
 
-  handleReq = () => {
-    fetch('http://127.0.0.1:3010/')
+  handleReq = (url) => {
+    return fetch(url, { mode: 'cors' })
       .then(res => {
-        console.log(res);
-        return res;
+        return res.json();
       })
       .catch(e => {
         console.log(e);
@@ -111,12 +127,8 @@ export default class App extends React.Component {
           name='contacts'
           width='available'
           placeholder='К кому ваше обращение'
-          mode='check'
-          options={[
-            { value: '01', text: 'ИП Фридман М.М.' },
-            { value: '02', text: 'ООО «Виктори»' },
-            { value: '03', text: 'ФГУП НПП ВНИИЭМ' }
-          ]}
+          mode='radio'
+          options={this.state.selectOption}
         />
         {!this.state.checked ? this.renderFullForm() : ''}
         <FormField>
@@ -139,7 +151,7 @@ export default class App extends React.Component {
           <Button
             width='available'
             text='Отправить'
-            onClick={this.handleReq}
+            onClick={this.handleSendButton}
           />
         </FormField>
       </div>
