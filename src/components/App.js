@@ -33,7 +33,7 @@ export default class App extends React.Component {
   };
 
   handleClearClick = (name) => {
-    this.setState({ formData: { ...this.state.formData, name: '' } });
+    this.setState({ formData: { ...this.state.formData, [name]: '' } });
     console.log(`name: ${name} value: ${this.state.formData.name}`);
   };
 
@@ -41,6 +41,21 @@ export default class App extends React.Component {
     this.setState({ formData: { ...this.state.formData, [event.target.name]: event.target.value } });
     console.log(`name: ${event.target.name}, value: ${event.target.value }`);
   };
+
+  handleSendButton = () => {
+    console.log(JSON.stringify(this.state.formData));
+  };
+
+  handleReq = () => {
+    fetch('http://127.0.0.1:3010/')
+      .then(res => {
+        console.log(res);
+        return res;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
 
   renderFullForm = () => {
     return (
@@ -112,6 +127,7 @@ export default class App extends React.Component {
             autosize
             minRows={4}
             maxLength={17}
+            onChange={this.handleChange}
           />
         </FormField>
         <FormField>
@@ -123,6 +139,7 @@ export default class App extends React.Component {
           <Button
             width='available'
             text='Отправить'
+            onClick={this.handleReq}
           />
         </FormField>
       </div>
