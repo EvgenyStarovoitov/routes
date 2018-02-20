@@ -1,5 +1,8 @@
 const express         = require('express');
 const app             = express();
+const bodyParser      = require('body-parser');
+const cors            = require('cors');
+
 
 const PORT = process.env.PORT || 3010;
 
@@ -10,7 +13,9 @@ let logger = ( req, res, next) => {
   next();
 };
 
+app.use(bodyParser.json());
 app.use(logger);
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send(data);
