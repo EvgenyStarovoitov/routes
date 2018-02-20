@@ -30,9 +30,7 @@ export default class App extends React.Component {
   };
 
   componentWillMount() {
-    const getSelectData = this.handleReq('http://127.0.0.1:3010/');
-
-    console.log(getSelectData);
+    const getSelectData = this.getSelectOptionData('http://127.0.0.1:3010/');
 
     Promise.all([ getSelectData ])
       .then((data) => {
@@ -60,10 +58,22 @@ export default class App extends React.Component {
   };
 
   handleSendButton = () => {
-    console.log(JSON.stringify(this.state));
+    // console.log(JSON.stringify(this.state.formData));
+    fetch('http://127.0.0.1:3010/add', {
+      method: 'POST',
+      body:    JSON.stringify(this.state.formData),
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'cors'
+    })
+      .then(res =>  {
+        console.log(res);
+        return res.json();
+      })
+      .then(json => console.log(json))
+      .catch(err => console.log(err));
   };
 
-  handleReq = (url) => {
+  getSelectOptionData = (url) => {
     return fetch(url, { mode: 'cors' })
       .then(res => {
         return res.json();
@@ -71,7 +81,7 @@ export default class App extends React.Component {
       .catch(e => {
         console.log(e);
       });
-  }
+  };
 
   renderFullForm = () => {
     return (
@@ -105,7 +115,7 @@ export default class App extends React.Component {
         </FormField>
       </span>
     );
-  }
+  };
 
   render() {
     return (
@@ -128,7 +138,10 @@ export default class App extends React.Component {
           width='available'
           placeholder='К кому ваше обращение'
           mode='radio'
-          options={this.state.selectOption}
+          options={this.state.selectOption ? this.state.selectOption : [
+            { value: '01', text: 'ИП Фридман М.М.' },
+            { value: '02', text: 'ООО «Виктори»' }
+          ]}
         />
         {!this.state.checked ? this.renderFullForm() : ''}
         <FormField>

@@ -1,13 +1,16 @@
-const express         = require('express');
-const app             = express();
-const bodyParser      = require('body-parser');
-const cors            = require('cors');
-const PORT            = process.env.PORT || 3010;
+const express           = require('express');
+const app               = express();
+const bodyParser        = require('body-parser');
+const cors              = require('cors');
+const PORT              = process.env.PORT || 3010;
+// const urlencodedParser  = bodyParser.urlencoded({extended: false});
 
 let data = [
-  { value: '01', text: 'ИП Фридман М.М.' },
-  { value: '02', text: 'ООО «Виктори»' },
-  { value: '03', text: 'ФГУП НПП ВНИИЭМ' }
+  { value: '1', text: 'Том менеджмент' },
+  { value: '2', text: 'Служба безопасности' },
+  { value: '3', text: 'Юридический отдел' },
+  { value: '4', text: 'Финансовый отдел' },
+  { value: '5', text: 'Отдел качества' }
 ];
 
 let logger = ( req, res, next) => {
@@ -21,6 +24,16 @@ app.use(cors());
 
 app.get('/', (req, res) => {
   res.json(data);
+});
+
+app.post('/add', (req,res,err) => {
+  console.log(req.body);
+  if(err){
+    console.log(err)
+    return res.sendStatus(500)
+  }else{
+    res.json({ text: 'request is successfully'})
+  }
 });
 
 app.listen(PORT, ()=> {
