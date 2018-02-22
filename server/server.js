@@ -6,11 +6,11 @@ const PORT              = process.env.PORT || 3010;
 // const urlencodedParser  = bodyParser.urlencoded({extended: false});
 
 let data = [
-  { value: '1', text: 'Том менеджмент' },
-  { value: '2', text: 'Служба безопасности' },
-  { value: '3', text: 'Юридический отдел' },
-  { value: '4', text: 'Финансовый отдел' },
-  { value: '5', text: 'Отдел качества' }
+  { value: '0', text: 'Том менеджмент' },
+  { value: '1', text: 'Служба безопасности' },
+  { value: '2', text: 'Юридический отдел' },
+  { value: '3', text: 'Финансовый отдел' },
+  { value: '4', text: 'Отдел качества' }
 ];
 
 let logger = ( req, res, next) => {

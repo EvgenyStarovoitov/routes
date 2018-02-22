@@ -1,8 +1,11 @@
 .modal {
-  display: inline-flex;
-  max-width: 300px;
+  /* display: inline-flex; */
+  max-width: 350px;
+  /* align-items: center; */
+  text-align: center;
   /* border:1px solid grey;
   border-radius: 5px/5px; */
-  position: absolute;
-  top:250px;
+  /* position: absolute; */
+  /* top:250px; */
+  margin: auto auto;
 }

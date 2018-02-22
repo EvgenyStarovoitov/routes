@@ -16,13 +16,13 @@ import FormField from 'arui-feather/form-field';
 export default class FeedbackForm extends React.Component {
   static propTypes = {
     selectOption: Type.array,
-    onSend: Type.func
+    onSubmit: Type.func
   };
 
   static defaultProps = {
     selectOption: [
-      { value: '1', text: 'Ациль' },
-      { value: '2', text: 'Мойша' }
+      { value: '0', text: 'Ациль' },
+      { value: '1', text: 'Мойша' }
     ]
   };
 
@@ -55,19 +55,20 @@ export default class FeedbackForm extends React.Component {
       });
   }
 
-  handleCheck = (val) => {
-    this.setState({ checked:val });
-    console.log(`checked: ${this.state.checked}`);
+  handleCheck = (value) => {
+    this.setState({ checked:value });
   };
 
   handleClearClick = (name) => {
     this.setState({ formData: { ...this.state.formData, [name]: '' } });
-    console.log(`name: ${name} value: ${this.state.formData.name}`);
   };
 
   handleChange = (event) => {
     this.setState({ formData: { ...this.state.formData, [event.target.name]: event.target.value } });
-    console.log(`name: ${event.target.name}, value: ${event.target.value }`);
+  };
+
+  handleSelectValue = (value) => {
+    this.setState({ formData: { ...this.state.formData, contacts: this.state.selectOption[value].text } });
   };
 
   handleSendButton = () => {
@@ -82,9 +83,8 @@ export default class FeedbackForm extends React.Component {
       })
       .then(json => console.log(json))
       .catch(err => console.log(err));
-
-    if (this.props.onSend) {
-      this.props.onSend();
+    if (this.props.onSubmit) {
+      this.props.onSubmit();
     }
   };
 
@@ -133,6 +133,11 @@ export default class FeedbackForm extends React.Component {
   };
 
   render() {
+    const { messange, contacts } = this.state.formData;
+    const isEnabled =
+    messange.length > 0 &&
+    contacts.length > 0;
+
     return (
       <div className='feedbackForm'>
         <FormField>
@@ -154,6 +159,7 @@ export default class FeedbackForm extends React.Component {
           placeholder='К кому ваше обращение'
           mode='radio'
           options={this.state.selectOption}
+          onChange={this.handleSelectValue}
         />
         {!this.state.checked ? this.renderFullForm() : ''}
         <FormField>
@@ -177,6 +183,7 @@ export default class FeedbackForm extends React.Component {
             width='available'
             text='Отправить'
             onClick={this.handleSendButton}
+            disabled={!isEnabled}
           />
         </FormField>
       </div>

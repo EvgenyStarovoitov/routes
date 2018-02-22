@@ -13,34 +13,33 @@ export default class Modal extends React.Component {
     textMessange: Type.string,
     name: Type.string,
     id: Type.string,
-    size: Type.string,
+    sizeButton: Type.string,
     className: Type.string,
-    handleClose: Type.func,
-    onCloserClick: Type.func
+    handleOkClick: Type.func,
+    onClick: Type.func
   }
 
   static defaultProps = {
     textButton: 'Ok',
     textHeading: 'Заголовок',
-    textMessange: 'Основной текст модального окна'
+    textMessange: 'Основной текст модального окна',
+    sizeButton: 'm',
+    className: 'modal'
   }
 
   state = {
   }
 
-  handleClose = () => {
-    if (this.props.onCloserClick) {
-      this.props.onCloserClick();
+  handleOkClick = (event) => {
+    if (this.props.onClick) {
+      this.props.onClick(event);
     }
   }
 
   render() {
     return (
       <div className={this.props.className}>
-        <Plate
-          hasCloser
-          onCloserClick={this.handleClose}
-        >
+        <Plate >
           <Heading
             size='s'
           >
@@ -50,7 +49,9 @@ export default class Modal extends React.Component {
             {this.props.textMessange}
           </Paragraph>
           <Button
+            size={this.props.sizeButton}
             text={this.props.textButton}
+            onClick={this.handleOkClick}
           />
         </Plate>
       </div>
