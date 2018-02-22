@@ -26,14 +26,9 @@ app.get('/', (req, res) => {
   res.json(data);
 });
 
-app.post('/add', (req,res,err) => {
+app.post('/add', (req, res) => {
   console.log(req.body);
-  if(err){
-    console.log(err)
-    return res.sendStatus(500)
-  }else{
-    res.json({ text: 'request is successfully'})
-  }
+  res.json({ text: 'request is successfully'})
 });
 
 app.listen(PORT, ()=> {
