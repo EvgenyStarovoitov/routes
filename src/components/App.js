@@ -20,49 +20,36 @@ export default class App extends React.Component {
   };
 
   state = {
-    isShowFeedbackForm:true,
-    isShowModal:false
+    someCondition: true
   };
 
-  handleShowForm = () => {
-    console.log('FeedbackForm show');
-    this.setState({
-      isShowFeedbackForm: true,
-      isShowModal: false
-    });
-  }
-
-  handleShowModal = () => {
-    console.log('Modal window show');
-    this.setState({
-      isShowFeedbackForm: false,
-      isShowModal: true
-    });
-  }
+  handleSending = () => {
+    this.setState({ someCondition: !this.state.someCondition });
+    console.log(this.state.someCondition);
+  };
 
   renderFeebackForm = () => {
     return (
       <FeedbackForm
-        onSend = {this.handleShowModal}
+        onSend = {this.handleSending}
       />
     );
-  }
+  };
 
   renderModal = () => {
     return (
       <Modal
         textHeading = 'Ваше сообщение принято'
         textMessange = {'Результаты вашего обращения можете узнать по ссылке или по QR-коду'}
-        onCloserClick = {this.handleShowForm}
+        onCloserClick = {this.handleSending}
       />
     );
-  }
+  };
 
   render() {
     return (
       <div className='App'>
-        {this.state.isShowFeedbackForm ? this.renderFeebackForm() : ''}
-        {this.state.isShowModal ? this.renderModal() : ''}
+        {this.state.someCondition ? this.renderFeebackForm() : this.renderModal()}
       </div>
     );
   }
