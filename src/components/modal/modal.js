@@ -11,6 +11,8 @@ export default class Modal extends React.Component {
     textButton: Type.string,
     textHeading: Type.string,
     textMessange: Type.string,
+    link: Type.string,
+    qrCode: Type.string,
     name: Type.string,
     id: Type.string,
     sizeButton: Type.string,
@@ -23,6 +25,8 @@ export default class Modal extends React.Component {
     textButton: 'Ok',
     textHeading: 'Заголовок',
     textMessange: 'Основной текст модального окна',
+    link: 'какая то ссылка',
+    qrCode: 'какой-то qr code',
     sizeButton: 'm',
     className: 'modal'
   }
@@ -48,10 +52,17 @@ export default class Modal extends React.Component {
           <Paragraph>
             {this.props.textMessange}
           </Paragraph>
+          <Paragraph>
+            {this.props.link}
+          </Paragraph>
+          <Paragraph>
+            {this.props.qrCode}
+          </Paragraph>
           <Button
             size={this.props.sizeButton}
             text={this.props.textButton}
             onClick={this.handleOkClick}
+            width='available'
           />
         </Plate>
       </div>

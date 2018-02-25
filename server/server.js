@@ -28,7 +28,10 @@ app.get('/', (req, res) => {
 
 app.post('/add', (req, res) => {
   console.log(req.body);
-  res.json({ text: 'request is successfully'})
+  res.json({ 
+    link: 'link from server',
+    qrCode: 'qrCode from server'
+  })
 });
 
 app.listen(PORT, ()=> {

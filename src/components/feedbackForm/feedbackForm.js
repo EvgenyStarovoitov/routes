@@ -21,8 +21,11 @@ export default class FeedbackForm extends React.Component {
 
   static defaultProps = {
     selectOption: [
-      { value: '0', text: 'Ациль' },
-      { value: '1', text: 'Мойша' }
+      { value: '0', text: 'Том менеджмент' },
+      { value: '1', text: 'Служба безопасности' },
+      { value: '2', text: 'Юридический отдел' },
+      { value: '3', text: 'Финансовый отдел' },
+      { value: '4', text: 'Отдел качества' }
     ]
   };
 
@@ -71,6 +74,11 @@ export default class FeedbackForm extends React.Component {
     this.setState({ formData: { ...this.state.formData, contacts: this.state.selectOption[value].text } });
   };
 
+  handleAttachedFile = (value) => {
+    this.setState({ formData: { ...this.state.formData, attachedFile: value } });
+    console.log(value);
+  };
+
   handleSendButton = () => {
     fetch('http://127.0.0.1:3010/add', {
       method: 'POST',
@@ -79,13 +87,11 @@ export default class FeedbackForm extends React.Component {
       mode: 'cors'
     })
       .then(res =>  {
-        return res.json();
+        if (this.props.onSubmit) {
+          this.props.onSubmit(res.json());
+        }
       })
-      .then(json => console.log(json))
       .catch(err => console.log(err));
-    if (this.props.onSubmit) {
-      this.props.onSubmit();
-    }
   };
 
   getSelectOptionData = (url) => {
@@ -135,7 +141,7 @@ export default class FeedbackForm extends React.Component {
   render() {
     const { messange, contacts } = this.state.formData;
     const isEnabled =
-    messange.length > 0 &&
+    messange.length > 1 &&
     contacts.length > 0;
 
     return (
@@ -160,6 +166,8 @@ export default class FeedbackForm extends React.Component {
           mode='radio'
           options={this.state.selectOption}
           onChange={this.handleSelectValue}
+          mobileMenuMode='popup'
+          mobileTitle='К кому ваше обращение'
         />
         {!this.state.checked ? this.renderFullForm() : ''}
         <FormField>
@@ -171,11 +179,13 @@ export default class FeedbackForm extends React.Component {
             minRows={4}
             maxLength={17}
             onChange={this.handleChange}
+            error={messange.length < 1 ? 'Сообщение слишком короткое' :  ''}
           />
         </FormField>
         <FormField>
           <Attach
             name='attachedFile'
+            onChange={this.handleAttachedFile}
           />
         </FormField>
         <FormField>

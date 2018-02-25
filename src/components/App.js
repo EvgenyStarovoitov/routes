@@ -15,17 +15,39 @@ export default class App extends React.Component {
   };
 
   state = {
-    someCondition: true
+    isNoSendingForm: true,
+    qrCode: 'test qr code from parent state',
+    link: 'test link from parent state'
+  };
+
+  handleResponseFromForm = (res) => {
+    Promise.all([ res ])
+      .then((data) => {
+        if (data[0] !== undefined) {
+          this.setState({
+            link:data[0].link,
+            qrCode:data[0].qrCode
+          });
+        } else {
+          return;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
   };
 
   handleSending = () => {
-    this.setState({ someCondition: !this.state.someCondition });
+    this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
   };
-
+  // для формы передлеать функцию которая будет принимать в качестве cb ссылку
+  // на ответ и qr код и соответственно менять состояние,
+  // состояние родителя передавать уже в модальное окно как props
   renderFeebackForm = () => {
     return (
       <FeedbackForm
-        onSubmit = {this.handleSending}
+        onSubmit = {this.handleResponseFromForm}
       />
     );
   };
@@ -36,6 +58,8 @@ export default class App extends React.Component {
         textHeading = 'Ваше сообщение принято'
         textMessange = {'Результаты вашего обращения можете узнать по ссылке или по QR-коду'}
         onClick = {this.handleSending}
+        qrCode={this.state.qrCode}
+        link={this.state.link}
       />
     );
   };
@@ -43,7 +67,9 @@ export default class App extends React.Component {
   render() {
     return (
       <div className='App'>
-        {this.state.someCondition ? this.renderFeebackForm() : this.renderModal()}
+        <div className='App_inner'>
+          {this.state.isNoSendingForm ? this.renderFeebackForm() : this.renderModal()}
+        </div>
       </div>
     );
   }
