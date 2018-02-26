@@ -3,6 +3,8 @@ const app               = express();
 const bodyParser        = require('body-parser');
 const cors              = require('cors');
 const PORT              = process.env.PORT || 3010;
+const crypto            = require('crypto');
+const multer            = require('multer');
 // const urlencodedParser  = bodyParser.urlencoded({extended: false});
 
 let data = [

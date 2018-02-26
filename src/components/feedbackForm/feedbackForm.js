@@ -38,25 +38,8 @@ export default class FeedbackForm extends React.Component {
       messange: '',
       attachedFile: ''
     },
-    checked: false,
-    selectOption: this.props.selectOption
+    checked: false
   };
-
-  componentWillMount() {
-    const getSelectData = this.getSelectOptionData('http://127.0.0.1:3010/');
-
-    Promise.all([ getSelectData ])
-      .then((data) => {
-        if (data[0] !== undefined) {
-          this.setState({ selectOption:data[0] });
-        } else {
-          return;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
 
   handleCheck = (value) => {
     this.setState({ checked:value });
@@ -71,7 +54,7 @@ export default class FeedbackForm extends React.Component {
   };
 
   handleSelectValue = (value) => {
-    this.setState({ formData: { ...this.state.formData, contacts: this.state.selectOption[value].text } });
+    this.setState({ formData: { ...this.state.formData, contacts: this.props.selectOption[value].text } });
   };
 
   handleAttachedFile = (value) => {
@@ -92,16 +75,6 @@ export default class FeedbackForm extends React.Component {
         }
       })
       .catch(err => console.log(err));
-  };
-
-  getSelectOptionData = (url) => {
-    return fetch(url, { mode: 'cors' })
-      .then(res => {
-        return res.json();
-      })
-      .catch(e => {
-        console.log(e);
-      });
   };
 
   renderFullForm = () => {
@@ -164,7 +137,7 @@ export default class FeedbackForm extends React.Component {
           width='available'
           placeholder='К кому ваше обращение'
           mode='radio'
-          options={this.state.selectOption}
+          options={this.props.selectOption}
           onChange={this.handleSelectValue}
           mobileMenuMode='popup'
           mobileTitle='К кому ваше обращение'

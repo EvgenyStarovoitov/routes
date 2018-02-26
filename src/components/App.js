@@ -1,5 +1,5 @@
 import React from 'react';
-// import fetch from 'node-fetch';
+import fetch from 'node-fetch';
 import Type from 'prop-types';
 
 import './App.css';
@@ -17,8 +17,26 @@ export default class App extends React.Component {
   state = {
     isNoSendingForm: true,
     qrCode: 'test qr code from parent state',
-    link: 'test link from parent state'
+    link: 'test link from parent state',
+    selectOption: []
   };
+
+  componentWillMount() {
+    const getSelectData = this.getSelectOptionData('http://127.0.0.1:3010');
+
+    console.log(getSelectData);
+    Promise.all([ getSelectData ])
+      .then((data) => {
+        if (data[0] !== undefined) {
+          this.setState({ selectOption:data[0] });
+        } else {
+          return;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   handleResponseFromForm = (res) => {
     Promise.all([ res ])
@@ -41,9 +59,17 @@ export default class App extends React.Component {
   handleSending = () => {
     this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
   };
-  // для формы передлеать функцию которая будет принимать в качестве cb ссылку
-  // на ответ и qr код и соответственно менять состояние,
-  // состояние родителя передавать уже в модальное окно как props
+
+  getSelectOptionData = (url) => {
+    return fetch(url, { mode: 'cors' })
+      .then(res => {
+        return res.json();
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
   renderFeebackForm = () => {
     return (
       <FeedbackForm
@@ -60,6 +86,7 @@ export default class App extends React.Component {
         onClick = {this.handleSending}
         qrCode={this.state.qrCode}
         link={this.state.link}
+        selectOption={this.state.selectOption}
       />
     );
   };
