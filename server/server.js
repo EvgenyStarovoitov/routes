@@ -2,19 +2,17 @@ const express           = require('express');
 const app               = express();
 const bodyParser        = require('body-parser');
 const cors              = require('cors');
-const PORT              = process.env.PORT || 3010;
 const crypto            = require('crypto');
 const multer            = require('multer');
+const config            = require('../config.json');
+const PORT              = process.env.PORT || config.api.backendPORT;
 // const urlencodedParser  = bodyParser.urlencoded({extended: false});
 
 let data = [
-  { value: '0', text: 'Том менеджмент' },
-  { value: '1', text: 'Служба безопасности' },
-  { value: '2', text: 'Юридический отдел' },
-  { value: '3', text: 'Финансовый отдел' },
-  { value: '4', text: 'Отдел качества' }
-];
-
+  {"id":1,"name":"Служба безопасности"},
+  {"id":2,"name":"Закупки"},
+  {"id":3,"name":"Кадры"}
+];  
 let logger = ( req, res, next) => {
   console.log(`req in time: ${new Date()}`);
   next();
@@ -31,8 +29,7 @@ app.get('/', (req, res) => {
 app.post('/add', (req, res) => {
   console.log(req.body);
   res.json({ 
-    link: 'link from server',
-    qrCode: 'qrCode from server'
+    link: 'link from server'
   })
 });
 

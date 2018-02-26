@@ -1,6 +1,7 @@
 import React from 'react';
 import fetch from 'node-fetch';
 import Type from 'prop-types';
+import config from '/Users/evgeny/react/feedback_form/config.json';
 
 import './App.css';
 
@@ -16,42 +17,44 @@ export default class App extends React.Component {
 
   state = {
     isNoSendingForm: true,
-    qrCode: 'test qr code from parent state',
-    link: 'test link from parent state',
-    selectOption: []
+    selectOption: [],
+    responseLink:''
   };
 
   componentWillMount() {
-    const getSelectData = this.getSelectOptionData('http://127.0.0.1:3010');
+    fetch(`${config.api.pathUrl  }:${config.api.backendPORT}`)
+      .then(res => res.json())
+      .then(json => {
+        const result = json.map((curr, i) => {
+          const obj = {};
 
-    console.log(getSelectData);
-    Promise.all([ getSelectData ])
-      .then((data) => {
-        if (data[0] !== undefined) {
-          this.setState({ selectOption:data[0] });
-        } else {
-          return;
-        }
+          obj.text = curr.name;
+          obj.value = curr.id;
+          obj.key = i;
+          return obj;
+        });
+
+        this.setState({ selectOption:result });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((e) => {
+        console.log(e);
       });
   }
 
-  handleResponseFromForm = (res) => {
-    Promise.all([ res ])
-      .then((data) => {
-        if (data[0] !== undefined) {
-          this.setState({
-            link:data[0].link,
-            qrCode:data[0].qrCode
-          });
-        } else {
-          return;
+  handleDataFromForm = (data) => {
+    fetch(`${config.api.pathUrl  }:${config.api.backendPORT}/add`, {
+      method: 'POST',
+      body:    JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json !== undefined) {
+          this.setState({ responseLink: json.link });
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((e) => {
+        console.log(e);
       });
     this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
   };
@@ -60,20 +63,11 @@ export default class App extends React.Component {
     this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
   };
 
-  getSelectOptionData = (url) => {
-    return fetch(url, { mode: 'cors' })
-      .then(res => {
-        return res.json();
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
   renderFeebackForm = () => {
     return (
       <FeedbackForm
-        onSubmit = {this.handleResponseFromForm}
+        onSubmit = {this.handleDataFromForm}
+        selectOption={this.state.selectOption.length > 0 ? this.state.selectOption : undefined}
       />
     );
   };
@@ -84,9 +78,7 @@ export default class App extends React.Component {
         textHeading = 'Ваше сообщение принято'
         textMessange = {'Результаты вашего обращения можете узнать по ссылке или по QR-коду'}
         onClick = {this.handleSending}
-        qrCode={this.state.qrCode}
-        link={this.state.link}
-        selectOption={this.state.selectOption}
+        link={this.state.responseLink}
       />
     );
   };

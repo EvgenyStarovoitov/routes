@@ -1,5 +1,4 @@
 import React from 'react';
-import fetch from 'node-fetch';
 import Type from 'prop-types';
 
 import Heading from 'arui-feather/heading';
@@ -21,19 +20,16 @@ export default class FeedbackForm extends React.Component {
 
   static defaultProps = {
     selectOption: [
-      { value: '0', text: 'Том менеджмент' },
-      { value: '1', text: 'Служба безопасности' },
-      { value: '2', text: 'Юридический отдел' },
-      { value: '3', text: 'Финансовый отдел' },
-      { value: '4', text: 'Отдел качества' }
+      { value:1, text: 'Служба безопасности' },
+      { value:2, text: 'Закупки' }
     ]
   };
 
   state = {
     formData:{
-      contacts: '',
-      fullName: '',
-      phoneNumber: '',
+      destination: '',
+      name: '',
+      phone: '',
       email: '',
       messange: '',
       attachedFile: ''
@@ -54,7 +50,7 @@ export default class FeedbackForm extends React.Component {
   };
 
   handleSelectValue = (value) => {
-    this.setState({ formData: { ...this.state.formData, contacts: this.props.selectOption[value].text } });
+    this.setState({ formData: { ...this.state.formData, destination: value[0] } });
   };
 
   handleAttachedFile = (value) => {
@@ -63,18 +59,9 @@ export default class FeedbackForm extends React.Component {
   };
 
   handleSendButton = () => {
-    fetch('http://127.0.0.1:3010/add', {
-      method: 'POST',
-      body:    JSON.stringify(this.state.formData),
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'cors'
-    })
-      .then(res =>  {
-        if (this.props.onSubmit) {
-          this.props.onSubmit(res.json());
-        }
-      })
-      .catch(err => console.log(err));
+    if (this.props.onSubmit) {
+      this.props.onSubmit(this.state.formData);
+    }
   };
 
   renderFullForm = () => {
@@ -82,15 +69,17 @@ export default class FeedbackForm extends React.Component {
       <span>
         <FormField>
           <Input
-            name='fullName'
+            name='name'
             width='available'
             placeholder='ФИО'
             clear
             onClearClick={this.handleClearClick}
             onChange={this.handleChange}
           />
+        </FormField>
+        <FormField>
           <PhoneInput
-            name='phoneNumber'
+            name='phone'
             width='available'
             placeholder='Ваше телефон'
             clear
@@ -98,6 +87,8 @@ export default class FeedbackForm extends React.Component {
             onChange={this.handleChange}
             mask='+111 11 111 11 11'
           />
+        </FormField>
+        <FormField>
           <EmailInput
             name='email'
             width='available'
@@ -112,10 +103,10 @@ export default class FeedbackForm extends React.Component {
   };
 
   render() {
-    const { messange, contacts } = this.state.formData;
+    const { messange, destination } = this.state.formData;
     const isEnabled =
-    messange.length > 1 &&
-    contacts.length > 0;
+    messange.length > 7 &&
+    destination > 0;
 
     return (
       <div className='feedbackForm'>
@@ -132,16 +123,18 @@ export default class FeedbackForm extends React.Component {
             onChange={this.handleCheck}
           />
         </FormField>
-        <Select
-          name='contacts'
-          width='available'
-          placeholder='К кому ваше обращение'
-          mode='radio'
-          options={this.props.selectOption}
-          onChange={this.handleSelectValue}
-          mobileMenuMode='popup'
-          mobileTitle='К кому ваше обращение'
-        />
+        <FormField>
+          <Select
+            name='destination'
+            width='available'
+            placeholder='К кому ваше обращение'
+            mode='radio'
+            options={this.props.selectOption}
+            onChange={this.handleSelectValue}
+            mobileMenuMode='popup'
+            mobileTitle='К кому ваше обращение'
+          />
+        </FormField>
         {!this.state.checked ? this.renderFullForm() : ''}
         <FormField>
           <Textarea
@@ -152,7 +145,7 @@ export default class FeedbackForm extends React.Component {
             minRows={4}
             maxLength={17}
             onChange={this.handleChange}
-            error={messange.length < 1 ? 'Сообщение слишком короткое' :  ''}
+            // error={messange.length < 1 ? 'Сообщение слишком короткое' :  ''}
           />
         </FormField>
         <FormField>
