@@ -76,7 +76,7 @@ export default class App extends React.Component {
     return (
       <Modal
         textHeading = 'Ваше сообщение принято'
-        textMessange = {'Результаты вашего обращения можете узнать по ссылке или по QR-коду'}
+        textMessange = {'Результаты обращения вы можете узнать по ссылке или по QR-коду'}
         onClick = {this.handleSending}
         link={this.state.responseLink}
       />

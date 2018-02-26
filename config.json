@@ -2,6 +2,6 @@
   "api":{
     "pathUrl":"http://127.0.0.1",
     "frontendPORT":3001,
-    "backendPORT": 3077
+    "backendPORT": 3070
   }
 }

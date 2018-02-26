@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 app.post('/add', (req, res) => {
   console.log(req.body);
   res.json({ 
-    link: 'link from server'
+    link: 'https://servolux.com/'
   })
 });
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import Type from 'prop-types';
+import QRCode from 'qrcode';
 
 import Button from 'arui-feather/button';
 import Plate from 'arui-feather/plate';
@@ -12,7 +13,6 @@ export default class Modal extends React.Component {
     textHeading: Type.string,
     textMessange: Type.string,
     link: Type.string,
-    qrCode: Type.string,
     name: Type.string,
     id: Type.string,
     sizeButton: Type.string,
@@ -26,7 +26,6 @@ export default class Modal extends React.Component {
     textHeading: 'Заголовок',
     textMessange: 'Основной текст модального окна',
     link: 'какая то ссылка',
-    qrCode: 'какой-то qr code',
     sizeButton: 'm',
     className: 'modal'
   }
@@ -34,11 +33,20 @@ export default class Modal extends React.Component {
   state = {
   }
 
+  componentWillReceiveProps(nextProps) {
+    const canvas = document.getElementById('canvas');
+
+    QRCode.toCanvas(canvas, nextProps.link, (error) => {
+      if (error) console.error(error);
+      console.log('success!');
+    });
+  }
+
   handleOkClick = (event) => {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
-  }
+  };
 
   render() {
     return (
@@ -53,11 +61,9 @@ export default class Modal extends React.Component {
             {this.props.textMessange}
           </Paragraph>
           <Paragraph>
-            {this.props.link}
+            <a href={this.props.link}>Какая то ссылка </a>
           </Paragraph>
-          <Paragraph>
-            {this.props.qrCode}
-          </Paragraph>
+          <canvas id='canvas' />
           <Button
             size={this.props.sizeButton}
             text={this.props.textButton}
