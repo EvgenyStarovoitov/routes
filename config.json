@@ -1,7 +1,7 @@
 {
+  "UrlClient" :"http://127.0.0.1:3001",
+  "UrlApi": "http://127.0.0.1:3010",
   "api":{
-    "pathUrl":"http://127.0.0.1",
-    "frontendPORT":3001,
-    "backendPORT": 3070
+    "addMessage": "/add"
   }
 }

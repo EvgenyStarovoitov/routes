@@ -13,6 +13,7 @@ export default class Modal extends React.Component {
     textHeading: Type.string,
     textMessange: Type.string,
     link: Type.string,
+    linkText: Type.string,
     name: Type.string,
     id: Type.string,
     sizeButton: Type.string,
@@ -25,7 +26,6 @@ export default class Modal extends React.Component {
     textButton: 'Ok',
     textHeading: 'Заголовок',
     textMessange: 'Основной текст модального окна',
-    link: 'какая то ссылка',
     sizeButton: 'm',
     className: 'modal'
   }
@@ -34,12 +34,16 @@ export default class Modal extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const canvas = document.getElementById('canvas');
+    if (nextProps.link !== undefined) {
+      const canvas = document.getElementById('canvas');
 
-    QRCode.toCanvas(canvas, nextProps.link, (error) => {
-      if (error) console.error(error);
-      console.log('success!');
-    });
+      QRCode.toCanvas(canvas, nextProps.link, (error) => {
+        if (error) {
+          console.error(error);
+        }
+        console.log('success!');
+      });
+    }
   }
 
   handleOkClick = (event) => {
@@ -61,9 +65,9 @@ export default class Modal extends React.Component {
             {this.props.textMessange}
           </Paragraph>
           <Paragraph>
-            <a href={this.props.link}>Какая то ссылка </a>
+            {this.props.link !== undefined ? <a href={this.props.link}>{this.props.linkText}</a> : ''}
           </Paragraph>
-          <canvas id='canvas' />
+          {this.props.link !== undefined ? <canvas id='canvas' /> : ''}
           <Button
             size={this.props.sizeButton}
             text={this.props.textButton}

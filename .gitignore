@@ -1,3 +1,5 @@
-node_modules/
+node_modules/*
+!node_modules/arui-feather/input/input.js
+!node_modules/arui-feather/textarea/textarea.js
 .vscode
 dist/

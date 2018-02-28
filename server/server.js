@@ -5,8 +5,12 @@ const cors              = require('cors');
 const crypto            = require('crypto');
 const multer            = require('multer');
 const config            = require('../config.json');
-const PORT              = process.env.PORT || config.api.backendPORT;
+const PORT              = process.env.PORT || 3010;
 // const urlencodedParser  = bodyParser.urlencoded({extended: false});
+
+let getKeyRandom = (size) => {
+  return crypto.randomBytes(size).toString('hex');
+};
 
 let data = [
   {"id":1,"name":"Служба безопасности"},

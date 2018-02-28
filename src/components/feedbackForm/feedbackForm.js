@@ -8,7 +8,7 @@ import Input from 'arui-feather/input';
 import PhoneInput from 'arui-feather/phone-input';
 import EmailInput from 'arui-feather/email-input';
 import Textarea from 'arui-feather/textarea';
-import Attach from 'arui-feather/attach';
+// import Attach from 'arui-feather/attach';
 import Button from 'arui-feather/button';
 import FormField from 'arui-feather/form-field';
 
@@ -31,8 +31,7 @@ export default class FeedbackForm extends React.Component {
       name: '',
       phone: '',
       email: '',
-      messange: '',
-      attachedFile: ''
+      message: ''
     },
     checked: false
   };
@@ -53,11 +52,6 @@ export default class FeedbackForm extends React.Component {
     this.setState({ formData: { ...this.state.formData, destination: value[0] } });
   };
 
-  handleAttachedFile = (value) => {
-    this.setState({ formData: { ...this.state.formData, attachedFile: value } });
-    console.log(value);
-  };
-
   handleSendButton = () => {
     if (this.props.onSubmit) {
       this.props.onSubmit(this.state.formData);
@@ -72,6 +66,7 @@ export default class FeedbackForm extends React.Component {
             name='name'
             width='available'
             placeholder='ФИО'
+            maxLength={128}
             clear
             onClearClick={this.handleClearClick}
             onChange={this.handleChange}
@@ -82,6 +77,7 @@ export default class FeedbackForm extends React.Component {
             name='phone'
             width='available'
             placeholder='Ваше телефон'
+            maxLength={128}
             clear
             onClearClick={this.handleClearClick}
             onChange={this.handleChange}
@@ -103,9 +99,9 @@ export default class FeedbackForm extends React.Component {
   };
 
   render() {
-    const { messange, destination } = this.state.formData;
+    const { message, destination } = this.state.formData;
     const isEnabled =
-    messange.length > 7 &&
+    message.length > 7 &&
     destination > 0;
 
     return (
@@ -138,20 +134,14 @@ export default class FeedbackForm extends React.Component {
         {!this.state.checked ? this.renderFullForm() : ''}
         <FormField>
           <Textarea
-            name='messange'
+            name='message'
             width='available'
             placeholder='Ваше сообщение....'
             autosize
             minRows={4}
-            maxLength={17}
+            maxLength={8192}
             onChange={this.handleChange}
-            // error={messange.length < 1 ? 'Сообщение слишком короткое' :  ''}
-          />
-        </FormField>
-        <FormField>
-          <Attach
-            name='attachedFile'
-            onChange={this.handleAttachedFile}
+            // error={message.length < 1 ? 'Сообщение слишком короткое' :  ''}
           />
         </FormField>
         <FormField>

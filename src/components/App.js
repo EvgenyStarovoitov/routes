@@ -1,7 +1,7 @@
 import React from 'react';
 import fetch from 'node-fetch';
 import Type from 'prop-types';
-import config from '/Users/evgeny/react/feedback_form/config.json';
+import config from '../../config.json';
 
 import './App.css';
 
@@ -12,7 +12,7 @@ export default class App extends React.Component {
   static propTypes = {
     renderFeebackForm: Type.func,
     renderModal: Type.func,
-    handleSending: Type.func
+    handleModalClick: Type.func
   };
 
   state = {
@@ -22,7 +22,7 @@ export default class App extends React.Component {
   };
 
   componentWillMount() {
-    fetch(`${config.api.pathUrl  }:${config.api.backendPORT}`)
+    fetch(`${config.UrlApi  }`)
       .then(res => res.json())
       .then(json => {
         const result = json.map((curr, i) => {
@@ -42,7 +42,7 @@ export default class App extends React.Component {
   }
 
   handleDataFromForm = (data) => {
-    fetch(`${config.api.pathUrl  }:${config.api.backendPORT}/add`, {
+    fetch(`${config.UrlApi  }${config.api.addMessage}`, {
       method: 'POST',
       body:    JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' }
@@ -59,7 +59,7 @@ export default class App extends React.Component {
     this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
   };
 
-  handleSending = () => {
+  handleModalClick = () => {
     this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
   };
 
@@ -77,8 +77,9 @@ export default class App extends React.Component {
       <Modal
         textHeading = 'Ваше сообщение принято'
         textMessange = {'Результаты обращения вы можете узнать по ссылке или по QR-коду'}
-        onClick = {this.handleSending}
+        onClick = {this.handleModalClick}
         link={this.state.responseLink}
+        linkText='Нажмите чтоб перейти по ссылке'
       />
     );
   };
