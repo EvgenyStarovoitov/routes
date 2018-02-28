@@ -48,8 +48,28 @@ export default class FeedbackForm extends React.Component {
     this.setState({ formData: { ...this.state.formData, [event.target.name]: event.target.value } });
   };
 
+  handleMessageValue = (value) => {
+    this.setState({ formData: { ...this.state.formData, message:value } });
+    console.log(value);
+  };
+
   handleSelectValue = (value) => {
     this.setState({ formData: { ...this.state.formData, destination: value[0] } });
+  };
+
+  handleNameValue = (value) => {
+    this.setState({ formData: { ...this.state.formData, name:value } });
+    console.log(value);
+  };
+
+  handlePhoneValue = (value) => {
+    this.setState({ formData: { ...this.state.formData, phone:value } });
+    console.log(value);
+  };
+
+  handleEmailValue = (value) => {
+    this.setState({ formData: { ...this.state.formData, email:value } });
+    console.log(value);
   };
 
   handleSendButton = () => {
@@ -69,7 +89,7 @@ export default class FeedbackForm extends React.Component {
             maxLength={128}
             clear
             onClearClick={this.handleClearClick}
-            onChange={this.handleChange}
+            onChange={this.handleNameValue}
           />
         </FormField>
         <FormField>
@@ -80,7 +100,7 @@ export default class FeedbackForm extends React.Component {
             maxLength={128}
             clear
             onClearClick={this.handleClearClick}
-            onChange={this.handleChange}
+            onChange={this.handlePhoneValue}
             mask='+111 11 111 11 11'
           />
         </FormField>
@@ -91,7 +111,7 @@ export default class FeedbackForm extends React.Component {
             placeholder='Ваш email'
             clear
             onClearClick={this.handleClearClick}
-            onChange={this.handleChange}
+            onChange={this.handleEmailValue}
           />
         </FormField>
       </span>
@@ -140,7 +160,7 @@ export default class FeedbackForm extends React.Component {
             autosize
             minRows={4}
             maxLength={8192}
-            onChange={this.handleChange}
+            onChange={this.handleMessageValue}
             // error={message.length < 1 ? 'Сообщение слишком короткое' :  ''}
           />
         </FormField>

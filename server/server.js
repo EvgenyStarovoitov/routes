@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
   res.json(data);
 });
 
-app.post('/add', (req, res) => {
+app.post('/msg/add', (req, res) => {
   console.log(req.body);
   res.json({ 
     link: 'https://servolux.com/'

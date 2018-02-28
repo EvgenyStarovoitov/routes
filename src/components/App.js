@@ -18,11 +18,11 @@ export default class App extends React.Component {
   state = {
     isNoSendingForm: true,
     selectOption: [],
-    responseLink:''
+    responseMsg:''
   };
 
   componentWillMount() {
-    fetch(`${config.UrlApi  }`)
+    fetch(`${config.UrlApi}${config.api.getListDestination}`)
       .then(res => res.json())
       .then(json => {
         const result = json.map((curr, i) => {
@@ -44,18 +44,29 @@ export default class App extends React.Component {
   handleDataFromForm = (data) => {
     fetch(`${config.UrlApi  }${config.api.addMessage}`, {
       method: 'POST',
-      body:    JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' }
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body:    JSON.stringify({
+        name: data.name,
+        phone: data.phone,
+        destination: data.destination,
+        email:data.email,
+        message: data.message
+      })
     })
       .then(res => res.json())
       .then(json => {
         if (json !== undefined) {
-          this.setState({ responseLink: json.link });
+          console.log(json);
+          this.setState({ responseMsg: json.msg });
         }
       })
       .catch((e) => {
         console.log(e);
       });
+    console.log(this.state.responseMsg);
     this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
   };
 
@@ -78,7 +89,7 @@ export default class App extends React.Component {
         textHeading = 'Ваше сообщение принято'
         textMessange = {'Результаты обращения вы можете узнать по ссылке или по QR-коду'}
         onClick = {this.handleModalClick}
-        link={this.state.responseLink}
+        link={this.state.responseMsg !== undefined ? `${config.UrlApi}${config.api.getMessage}${this.state.responseMsg}` : undefined}
         linkText='Нажмите чтоб перейти по ссылке'
       />
     );
