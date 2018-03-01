@@ -18,12 +18,22 @@ export default class App extends React.Component {
   state = {
     isNoSendingForm: true,
     selectOption: [],
-    responseMsg:''
+    responseAPI:{
+      msg:null,
+      errorMsg:null
+    }
   };
 
   componentWillMount() {
     fetch(`${config.UrlApi}${config.api.getListDestination}`)
-      .then(res => res.json())
+      .then(res => {
+        if (res.status !== 200) {
+          console.log(`Oooops some problem.Status code:${res.status}`);
+          return;
+        }
+        return res;
+      })
+      .then(data => data.json())
       .then(json => {
         const result = json.map((curr, i) => {
           const obj = {};
@@ -42,6 +52,7 @@ export default class App extends React.Component {
   }
 
   handleDataFromForm = (data) => {
+    console.log(data);
     fetch(`${config.UrlApi  }${config.api.addMessage}`, {
       method: 'POST',
       headers: {
@@ -56,17 +67,43 @@ export default class App extends React.Component {
         message: data.message
       })
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.status !== 200) {
+          console.log(`Oooops some problem.Status code:${res.status}`);
+          return;
+        }
+        return res;
+      })
+      .then(data => data.json())
       .then(json => {
-        if (json !== undefined) {
-          console.log(json);
-          this.setState({ responseMsg: json.msg });
+        if (json.msg !== undefined) {
+          this.setState({ responseAPI: { msg: json.msg } });
+        } else {
+          this.setState({ responseAPI: { errorMsg: json.error } });
         }
       })
       .catch((e) => {
         console.log(e);
       });
-    console.log(this.state.responseMsg);
+
+    const form = new FormData();
+
+    form.append('userFiles', data.attachedFile[0]);
+    fetch(`${config.UrlApi  }${config.api.addFile}`, {
+      method: 'POST',
+      body:    form
+    })
+      .then(res => {
+        if (res.status !== 200) {
+          console.log(`Oooops some problem.Status code:${res.status}`);
+          return;
+        }
+        console.log(res);
+        return res;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
     this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
   };
 
@@ -86,11 +123,16 @@ export default class App extends React.Component {
   renderModal = () => {
     return (
       <Modal
-        textHeading = 'Ваше сообщение принято'
-        textMessange = {'Результаты обращения вы можете узнать по ссылке или по QR-коду'}
+        textHeading = {this.state.responseAPI.msg !== null ? 'Ваше сообщение принято' : 'Ошибка'}
+        textMessange = {this.state.responseAPI.msg !== null ?
+          'Результаты обращения вы можете узнать по ссылке или по QR-коду'
+          : 'Упппс ваше сообщение не принято'}
         onClick = {this.handleModalClick}
-        link={this.state.responseMsg !== undefined ? `${config.UrlApi}${config.api.getMessage}${this.state.responseMsg}` : undefined}
+        link={this.state.responseAPI.msg !== null ?
+          `${config.UrlApi}${config.api.getMessage}${this.state.responseAPI.msg}`
+          : ''}
         linkText='Нажмите чтоб перейти по ссылке'
+        // errorMsg={this.state.responseAPI.errorMsg !== undefined ? this.state.responseAPI.errorMsg : ''}
       />
     );
   };

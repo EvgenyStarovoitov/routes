@@ -8,3 +8,7 @@
 .modal a {
   text-decoration: none;
 }
+.canvas__box{
+  width:0px;
+  height: 0px;
+}

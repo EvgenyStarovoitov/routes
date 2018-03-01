@@ -8,7 +8,7 @@ import Input from 'arui-feather/input';
 import PhoneInput from 'arui-feather/phone-input';
 import EmailInput from 'arui-feather/email-input';
 import Textarea from 'arui-feather/textarea';
-// import Attach from 'arui-feather/attach';
+import Attach from 'arui-feather/attach';
 import Button from 'arui-feather/button';
 import FormField from 'arui-feather/form-field';
 
@@ -31,7 +31,8 @@ export default class FeedbackForm extends React.Component {
       name: '',
       phone: '',
       email: '',
-      message: ''
+      message: '',
+      attachedFile: []
     },
     checked: false
   };
@@ -50,7 +51,6 @@ export default class FeedbackForm extends React.Component {
 
   handleMessageValue = (value) => {
     this.setState({ formData: { ...this.state.formData, message:value } });
-    console.log(value);
   };
 
   handleSelectValue = (value) => {
@@ -59,16 +59,18 @@ export default class FeedbackForm extends React.Component {
 
   handleNameValue = (value) => {
     this.setState({ formData: { ...this.state.formData, name:value } });
-    console.log(value);
   };
 
   handlePhoneValue = (value) => {
     this.setState({ formData: { ...this.state.formData, phone:value } });
-    console.log(value);
   };
 
   handleEmailValue = (value) => {
     this.setState({ formData: { ...this.state.formData, email:value } });
+  };
+
+  handleAttachFiles = (value) => {
+    this.setState({ formData: { ...this.state.formData, attachedFile:value } });
     console.log(value);
   };
 
@@ -162,6 +164,14 @@ export default class FeedbackForm extends React.Component {
             maxLength={8192}
             onChange={this.handleMessageValue}
             // error={message.length < 1 ? 'Сообщение слишком короткое' :  ''}
+          />
+        </FormField>
+        <FormField>
+          <Attach
+            onChange={this.handleAttachFiles}
+            multiple
+            accept='text/plain, image/jpeg'
+            noFileText='.pdf, .xls, .doc, .jpeg'
           />
         </FormField>
         <FormField>

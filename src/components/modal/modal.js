@@ -14,6 +14,7 @@ export default class Modal extends React.Component {
     textMessange: Type.string,
     link: Type.string,
     linkText: Type.string,
+    errorMsg:Type.string,
     name: Type.string,
     id: Type.string,
     sizeButton: Type.string,
@@ -34,13 +35,14 @@ export default class Modal extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.link !== undefined) {
-      const canvas = document.getElementById('canvas');
+    if (nextProps.link.length > 0) {
+      const canvas = document.querySelector('.canvas__box');
 
       QRCode.toCanvas(canvas, nextProps.link, (error) => {
         if (error) {
           console.error(error);
         }
+        console.log('succes qr transform');
       });
     }
   }
@@ -49,6 +51,14 @@ export default class Modal extends React.Component {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
+  };
+
+  renderQrCanvas = () => {
+    return (
+      <div>
+        <canvas className='canvas__box' />
+      </div>
+    );
   };
 
   render() {
@@ -64,9 +74,10 @@ export default class Modal extends React.Component {
             {this.props.textMessange}
           </Paragraph>
           <Paragraph>
-            {this.props.link !== undefined ? <a href={this.props.link}>{this.props.linkText}</a> : ''}
+            {this.props.link.length > 0 ? <a href={this.props.link}>{this.props.linkText}</a> : ''}
           </Paragraph>
-          {this.props.link !== undefined ? <canvas id='canvas' /> : ''}
+          {this.renderQrCanvas()}
+          {/* {this.props.link.length > 0 ? <canvas id='canvas' /> : ''} */}
           <Button
             size={this.props.sizeButton}
             text={this.props.textButton}

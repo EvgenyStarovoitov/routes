@@ -4,6 +4,7 @@
   "api":{
     "getListDestination": "/destination",
     "addMessage": "/msg/add",
-    "getMessage": "/msg/"
+    "getMessage": "/msg/",
+    "addFile": "/upload"
   }
 }
