@@ -31,9 +31,9 @@ export default class FeedbackForm extends React.Component {
       name: '',
       phone: '',
       email: '',
-      message: '',
-      attachedFile: []
+      message: ''
     },
+    attachedFile: [],
     checked: false
   };
 
@@ -70,13 +70,13 @@ export default class FeedbackForm extends React.Component {
   };
 
   handleAttachFiles = (value) => {
-    this.setState({ formData: { ...this.state.formData, attachedFile:value } });
+    this.setState({ attachedFile: value });
     console.log(value);
   };
 
   handleSendButton = () => {
     if (this.props.onSubmit) {
-      this.props.onSubmit(this.state.formData);
+      this.props.onSubmit(this.state.formData, this.state.attachedFile);
     }
   };
 
@@ -123,7 +123,7 @@ export default class FeedbackForm extends React.Component {
   render() {
     const { message, destination } = this.state.formData;
     const isEnabled =
-    message.length > 7 &&
+    message.length > 2 &&
     destination > 0;
 
     return (
@@ -171,7 +171,7 @@ export default class FeedbackForm extends React.Component {
             onChange={this.handleAttachFiles}
             multiple
             accept='text/plain, image/jpeg'
-            noFileText='.pdf, .xls, .doc, .jpeg'
+            noFileText='.pdf, .xls, .doc,'
           />
         </FormField>
         <FormField>

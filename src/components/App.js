@@ -51,21 +51,22 @@ export default class App extends React.Component {
       });
   }
 
-  handleDataFromForm = (data) => {
-    console.log(data);
+  handleDataFromForm = (data, files) => {
+    const form = new FormData();
+    // data.attachedFile.map((value) => {
+    //   form.append('userFile', value);
+    // });
+
+    // data.map((key, value) => {
+    //   // form.append(key, value);
+    //   console.log(data.key, value);
+    // });
+    Object.keys(data).map((i) => {
+      form.append(i, data[i]);
+    });
     fetch(`${config.UrlApi  }${config.api.addMessage}`, {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body:    JSON.stringify({
-        name: data.name,
-        phone: data.phone,
-        destination: data.destination,
-        email:data.email,
-        message: data.message
-      })
+      body:    form
     })
       .then(res => {
         if (res.status !== 200) {
@@ -81,25 +82,6 @@ export default class App extends React.Component {
         } else {
           this.setState({ responseAPI: { errorMsg: json.error } });
         }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-
-    const form = new FormData();
-
-    form.append('userFiles', data.attachedFile[0]);
-    fetch(`${config.UrlApi  }${config.api.addFile}`, {
-      method: 'POST',
-      body:    form
-    })
-      .then(res => {
-        if (res.status !== 200) {
-          console.log(`Oooops some problem.Status code:${res.status}`);
-          return;
-        }
-        console.log(res);
-        return res;
       })
       .catch((e) => {
         console.log(e);
