@@ -14,7 +14,6 @@ export default class Modal extends React.Component {
     textMessange: Type.string,
     link: Type.string,
     linkText: Type.string,
-    errorMsg:Type.string,
     name: Type.string,
     id: Type.string,
     sizeButton: Type.string,
@@ -76,7 +75,6 @@ export default class Modal extends React.Component {
             {this.props.link.length > 0 ? <a href={this.props.link}>{this.props.linkText}</a> : ''}
           </Paragraph>
           {this.renderQrCanvas()}
-          {/* {this.props.link.length > 0 ? <canvas id='canvas' /> : ''} */}
           <Button
             size={this.props.sizeButton}
             text={this.props.textButton}

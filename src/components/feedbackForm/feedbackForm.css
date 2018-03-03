@@ -1,7 +1,30 @@
+*{
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+
+}
+
 .feedbackForm {
   display: flex;
   flex-direction: column;
   padding: 10px 20px 0px 20px;
   max-width: 300px;
 
+}
+.dropzone{
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: 100%;
+  padding:10px;
+  border:1px solid rgba(11, 31, 53, .4);
+  border-radius: 5px/5px;
+  cursor: pointer;
+}
+
+.dropzone__listItem{
+  width: 100%;
+  list-style-position: inside;
+}
+.dropzone__listItem li span {
+  display: inline-block;
 }

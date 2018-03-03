@@ -90,7 +90,6 @@ export default class App extends React.Component {
                 console.log(`Oooops some problem.Status code:${res.status}`);
                 return;
               }
-              console.log(res);
             })
             .catch(e => {
               console.log(e);

@@ -8,9 +8,10 @@ import Input from 'arui-feather/input';
 import PhoneInput from 'arui-feather/phone-input';
 import EmailInput from 'arui-feather/email-input';
 import Textarea from 'arui-feather/textarea';
-import Attach from 'arui-feather/attach';
 import Button from 'arui-feather/button';
 import FormField from 'arui-feather/form-field';
+import Dropzone from 'react-dropzone';
+import DropzoneItem from '../dropzoneItem/dropzoneItem';
 
 export default class FeedbackForm extends React.Component {
   static propTypes = {
@@ -41,8 +42,14 @@ export default class FeedbackForm extends React.Component {
     this.setState({ checked:value });
   };
 
-  handleClearClick = (name) => {
-    this.setState({ formData: { ...this.state.formData, [name]: '' } });
+  handleClearClick = (value) => {
+    this.setState({
+      ...this.state.attachedFile, attachedFile:     this.state.attachedFile.filter((e) => {
+        return (
+          e.name !== value
+        );
+      })
+    });
   };
 
   handleChange = (event) => {
@@ -69,8 +76,9 @@ export default class FeedbackForm extends React.Component {
     this.setState({ formData: { ...this.state.formData, email:value } });
   };
 
-  handleAttachFiles = (value) => {
-    this.setState({ attachedFile: value });
+  handleAttachFiles = (files) => {
+    this.setState({ attachedFile: files });
+    console.log(this.state.attachedFile);
   };
 
   handleSendButton = () => {
@@ -89,7 +97,6 @@ export default class FeedbackForm extends React.Component {
             placeholder='ФИО'
             maxLength={128}
             clear
-            onClearClick={this.handleClearClick}
             onChange={this.handleNameValue}
           />
         </FormField>
@@ -100,7 +107,6 @@ export default class FeedbackForm extends React.Component {
             placeholder='Ваше телефон'
             maxLength={128}
             clear
-            onClearClick={this.handleClearClick}
             onChange={this.handlePhoneValue}
             mask='+111 11 111 11 11'
           />
@@ -111,7 +117,6 @@ export default class FeedbackForm extends React.Component {
             width='available'
             placeholder='Ваш email'
             clear
-            onClearClick={this.handleClearClick}
             onChange={this.handleEmailValue}
           />
         </FormField>
@@ -162,16 +167,30 @@ export default class FeedbackForm extends React.Component {
             minRows={4}
             maxLength={8192}
             onChange={this.handleMessageValue}
-            // error={message.length < 1 ? 'Сообщение слишком короткое' :  ''}
           />
         </FormField>
         <FormField>
-          <Attach
-            onChange={this.handleAttachFiles}
-            multiple
-            accept='text/plain, image/jpeg'
-            noFileText='.pdf, .xls, .doc,'
-          />
+          <Dropzone
+            onDrop={this.handleAttachFiles}
+            className='dropzone'
+          >
+            <p>Перетяните файл для загрузки или нажмите для выбора файлов</p>
+          </Dropzone>
+        </FormField>
+        <FormField>
+          <ul className='dropzone__listItem'>
+            {this.state.attachedFile.map((f) => {
+              return (
+                <li key={f.name}>
+                  <DropzoneItem
+                    name={f.name}
+                    size={f.size}
+                    onClearClick={this.handleClearClick}
+                  />
+                </li>
+              );
+            })}
+          </ul>
         </FormField>
         <FormField>
           <Button
