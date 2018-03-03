@@ -5,6 +5,7 @@ import config from '../../config.json';
 
 import './App.css';
 
+import Spin from 'arui-feather/spin';
 import Modal from './modal/index';
 import FeedbackForm from './feedbackForm/index';
 
@@ -21,7 +22,8 @@ export default class App extends React.Component {
     responseAPI:{
       msg:null,
       errorMsg:null
-    }
+    },
+    loaded:false
   };
 
   componentWillMount() {
@@ -86,15 +88,23 @@ export default class App extends React.Component {
             body:     form
           })
             .then(res => {
+              this.setState({ loaded:!this.state.loaded });
               if (res.status !== 200) {
                 console.log(`Oooops some problem.Status code:${res.status}`);
                 return;
               }
+              console.log(res);
             })
             .catch(e => {
               console.log(e);
             });
-          this.setState({ responseAPI: { msg: json.msg } });
+          this.setState({
+            loaded:!this.state.loaded,
+            isNoSendingForm: !this.state.isNoSendingForm,
+            responseAPI: { msg: json.msg }
+          });
+          // this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
+          // this.setState({ responseAPI: { msg: json.msg } });
         } else {
           this.setState({ responseAPI: { errorMsg: json.error } });
         }
@@ -102,7 +112,6 @@ export default class App extends React.Component {
       .catch((e) => {
         console.log(e);
       });
-    this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
   };
 
   handleModalClick = () => {
@@ -115,9 +124,21 @@ export default class App extends React.Component {
         onSubmit = {this.handleDataFromForm}
         selectOption={this.state.selectOption.length > 0 ? this.state.selectOption : undefined}
         maxFiles={5}
+        maxSizeFile={1e+10}
       />
     );
   };
+
+  renderSpin = () => {
+    return (
+      <div className='spin__box'>
+        <Spin
+          visible={this.state.loaded}
+          className='spin__inner'
+        />
+      </div>
+    );
+  }
 
   renderModal = () => {
     return (
@@ -140,6 +161,7 @@ export default class App extends React.Component {
     return (
       <div className='App'>
         <div className='App_inner'>
+          {this.state.loaded ? this.renderSpin() : ''}
           {this.state.isNoSendingForm ? this.renderFeebackForm() : this.renderModal()}
         </div>
       </div>

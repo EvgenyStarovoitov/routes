@@ -17,6 +17,7 @@ export default class FeedbackForm extends React.Component {
   static propTypes = {
     selectOption: Type.array,
     maxFiles:Type.number,
+    maxSizeFile:Type.number,
     onSubmit: Type.func
   };
 
@@ -177,7 +178,7 @@ export default class FeedbackForm extends React.Component {
           <Dropzone
             onDrop={this.handleAttachFiles}
             className='dropzone'
-            maxSize={1e+7}
+            maxSize={this.props.maxSizeFile}
           >
             <p>Перетяните файл для загрузки или нажмите для выбора файлов</p>
           </Dropzone>
