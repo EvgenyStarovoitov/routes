@@ -16,6 +16,7 @@ import DropzoneItem from '../dropzoneItem/dropzoneItem';
 export default class FeedbackForm extends React.Component {
   static propTypes = {
     selectOption: Type.array,
+    maxFiles:Type.number,
     onSubmit: Type.func
   };
 
@@ -77,8 +78,11 @@ export default class FeedbackForm extends React.Component {
   };
 
   handleAttachFiles = (files) => {
-    this.setState({ attachedFile: files });
-    console.log(this.state.attachedFile);
+    if (files.length <= this.props.maxFiles) {
+      this.setState({ attachedFile: files });
+    } else {
+      console.log('the file is too large');
+    }
   };
 
   handleSendButton = () => {
@@ -173,6 +177,7 @@ export default class FeedbackForm extends React.Component {
           <Dropzone
             onDrop={this.handleAttachFiles}
             className='dropzone'
+            maxSize={1e+7}
           >
             <p>Перетяните файл для загрузки или нажмите для выбора файлов</p>
           </Dropzone>

@@ -28,3 +28,10 @@
 .dropzone__listItem li span {
   display: inline-block;
 }
+
+@media screen 
+  and (min-device-width: 1200px){ 
+    .feedbackForm{
+      max-width: 500px;
+    }
+}

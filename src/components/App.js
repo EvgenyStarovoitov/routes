@@ -114,6 +114,7 @@ export default class App extends React.Component {
       <FeedbackForm
         onSubmit = {this.handleDataFromForm}
         selectOption={this.state.selectOption.length > 0 ? this.state.selectOption : undefined}
+        maxFiles={5}
       />
     );
   };
