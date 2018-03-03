@@ -5,6 +5,6 @@
     "getListDestination": "/destination",
     "addMessage": "/msg/add",
     "getMessage": "/msg/",
-    "addFile": "/upload"
+    "addFile": "/files/add/"
   }
 }

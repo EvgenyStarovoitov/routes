@@ -71,7 +71,6 @@ export default class FeedbackForm extends React.Component {
 
   handleAttachFiles = (value) => {
     this.setState({ attachedFile: value });
-    console.log(value);
   };
 
   handleSendButton = () => {
@@ -123,7 +122,7 @@ export default class FeedbackForm extends React.Component {
   render() {
     const { message, destination } = this.state.formData;
     const isEnabled =
-    message.length > 2 &&
+    message.length > 7 &&
     destination > 0;
 
     return (

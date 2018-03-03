@@ -52,21 +52,19 @@ export default class App extends React.Component {
   }
 
   handleDataFromForm = (data, files) => {
-    const form = new FormData();
-    // data.attachedFile.map((value) => {
-    //   form.append('userFile', value);
-    // });
-
-    // data.map((key, value) => {
-    //   // form.append(key, value);
-    //   console.log(data.key, value);
-    // });
-    Object.keys(data).map((i) => {
-      form.append(i, data[i]);
-    });
     fetch(`${config.UrlApi  }${config.api.addMessage}`, {
       method: 'POST',
-      body:    form
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body:     JSON.stringify({
+        name: data.name,
+        phone: data.phone,
+        destination: data.destination,
+        email:data.email,
+        message: data.message
+      })
     })
       .then(res => {
         if (res.status !== 200) {
@@ -78,6 +76,25 @@ export default class App extends React.Component {
       .then(data => data.json())
       .then(json => {
         if (json.msg !== undefined) {
+          const form = new FormData();
+
+          files.map((value) => {
+            form.append('userFiles', value);
+          });
+          fetch(`${config.UrlApi  }${config.api.addFile}${json.msg}`, {
+            method: 'POST',
+            body:     form
+          })
+            .then(res => {
+              if (res.status !== 200) {
+                console.log(`Oooops some problem.Status code:${res.status}`);
+                return;
+              }
+              console.log(res);
+            })
+            .catch(e => {
+              console.log(e);
+            });
           this.setState({ responseAPI: { msg: json.msg } });
         } else {
           this.setState({ responseAPI: { errorMsg: json.error } });
