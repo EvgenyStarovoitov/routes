@@ -1,6 +1,8 @@
 import React from 'react';
 import Type from 'prop-types';
 
+import './dropzoneItem.css';
+
 import IconButton from 'arui-feather/icon-button';
 import { default as IconClose } from 'arui-feather/icon/ui/close';
 
@@ -27,13 +29,16 @@ export default class DropzoneItem extends React.Component {
 
   render() {
     return (
-      <span>
-        {`${this.props.name}-${this.props.size} байт`}
-        <IconButton
-          onClick={this.handleClearClick}
-        >
-          <IconClose size='m'/>
-        </IconButton>
+      <span className='dropzone__item'>
+        <span className='dropzone__fileName'>{`${this.props.name}`}</span>
+        <span className='dropzone__clear'>
+          <IconButton
+            size='m'
+            onClick={this.handleClearClick}
+          >
+            <IconClose size='m'/>
+          </IconButton>
+        </span>
       </span>
     );
   }

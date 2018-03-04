@@ -1,0 +1,21 @@
+.dropzone__item{
+  /* max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; */
+}
+
+.dropzone__fileName{
+  display: inline-block;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media screen 
+  and (min-device-width: 1200px){ 
+    .dropzone__fileName{
+      max-width: 350px;
+    }
+}

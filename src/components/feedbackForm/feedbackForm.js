@@ -13,6 +13,9 @@ import FormField from 'arui-feather/form-field';
 import Dropzone from 'react-dropzone';
 import DropzoneItem from '../dropzoneItem/dropzoneItem';
 
+// import Attach from 'arui-feather/attach';
+import MediaQuery from 'react-responsive';
+
 export default class FeedbackForm extends React.Component {
   static propTypes = {
     selectOption: Type.array,
@@ -37,7 +40,8 @@ export default class FeedbackForm extends React.Component {
       message: ''
     },
     attachedFile: [],
-    checked: false
+    checked: false,
+    isMobile: false
   };
 
   handleCheck = (value) => {
@@ -45,13 +49,17 @@ export default class FeedbackForm extends React.Component {
   };
 
   handleClearClick = (value) => {
-    this.setState({
-      ...this.state.attachedFile, attachedFile:     this.state.attachedFile.filter((e) => {
-        return (
-          e.name !== value
-        );
-      })
-    });
+    if (this.state.attachedFile.length <= 2) {
+      this.setState({
+        ...this.state.attachedFile, attachedFile:     this.state.attachedFile.filter((e) => {
+          return (
+            e.name !== value
+          );
+        })
+      });
+    } else {
+      this.setState({ attachedFile: [] });
+    }
   };
 
   handleChange = (event) => {
@@ -180,22 +188,37 @@ export default class FeedbackForm extends React.Component {
             className='dropzone'
             maxSize={this.props.maxSizeFile}
           >
-            <p>Перетяните файл для загрузки или нажмите для выбора файлов</p>
+            {<MediaQuery query='(min-device-width: 940px)'>
+              <p>Перетяните файл для загрузки или нажмите для выбора файлов</p>
+            </MediaQuery>}
+            {<MediaQuery query='(max-device-width: 939px)'>
+              <p>Выберите файл</p>
+            </MediaQuery>
+            }
           </Dropzone>
         </FormField>
         <FormField>
-          <ul className='dropzone__listItem'>
-            {this.state.attachedFile.map((f) => {
-              return (
-                <li key={f.name}>
-                  <DropzoneItem
-                    name={f.name}
-                    size={f.size}
-                    onClearClick={this.handleClearClick}
-                  />
-                </li>
-              );
-            })}
+          <ul className='dropzone__list'>
+            {this.state.attachedFile.length <= 2
+              ?
+              this.state.attachedFile.map((f) => {
+                return (
+                  <li key={f.name}>
+                    <DropzoneItem
+                      name={f.name}
+                      size={f.size}
+                      onClearClick={this.handleClearClick}
+                    />
+                  </li>
+                );
+              })
+              :
+              <DropzoneItem
+                name={`${this.state.attachedFile.length}
+                ${this.state.attachedFile.length <= 4 ? 'файла' : 'файлов'}`}
+                onClearClick={this.handleClearClick}
+              />
+            }
           </ul>
         </FormField>
         <FormField>

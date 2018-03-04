@@ -12,26 +12,42 @@
   max-width: 300px;
 
 }
+
 .dropzone{
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   width: 100%;
-  padding:10px;
-  border:1px solid rgba(11, 31, 53, .4);
+  padding:15px 10px;
+  border:1px dotted rgba(11, 31, 53, .4);
   border-radius: 5px/5px;
   cursor: pointer;
+  color: rgba(11, 31, 53, .4);
+  font-size: 75%;
 }
 
-.dropzone__listItem{
+.dropzone__list {
   width: 100%;
   list-style-position: inside;
+  list-style-type: none;
+  word-wrap: none;
 }
-.dropzone__listItem li span {
-  display: inline-block;
+
+.dropzone__list li span {
+  vertical-align: middle;
 }
 
 @media screen 
   and (min-device-width: 1200px){ 
     .feedbackForm{
       max-width: 500px;
+    }
+}
+
+@media screen 
+  and (max-device-width: 939px){ 
+    .dropzone{
+      border: 1px solid rgba(11, 31, 53, .4);
+      color:rgba(11, 31, 53, .95);
+      text-align: center;
+      font-size: 100%;
     }
 }

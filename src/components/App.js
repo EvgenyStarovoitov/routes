@@ -133,6 +133,7 @@ export default class App extends React.Component {
     return (
       <div className='spin__box'>
         <Spin
+          size='xl'
           visible={this.state.loaded}
           className='spin__inner'
         />
