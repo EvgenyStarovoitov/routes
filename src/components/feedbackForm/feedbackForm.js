@@ -10,6 +10,7 @@ import EmailInput from 'arui-feather/email-input';
 import Textarea from 'arui-feather/textarea';
 import Button from 'arui-feather/button';
 import FormField from 'arui-feather/form-field';
+import { default as IconAttachment } from 'arui-feather/icon/action/attachment';
 import Dropzone from 'react-dropzone';
 import DropzoneItem from '../dropzoneItem/dropzoneItem';
 
@@ -192,7 +193,11 @@ export default class FeedbackForm extends React.Component {
               <p>Перетяните файл для загрузки или нажмите для выбора файлов</p>
             </MediaQuery>}
             {<MediaQuery query='(max-device-width: 939px)'>
-              <p>Выберите файл</p>
+              <IconAttachment
+                className='dropzone__icon'
+                size='l'
+              />
+              <span>Выберите файл</span>
             </MediaQuery>
             }
           </Dropzone>

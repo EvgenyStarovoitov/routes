@@ -24,6 +24,10 @@
   font-size: 75%;
 }
 
+.dropzone__icon{
+  margin-right: 20px;
+}
+
 .dropzone__list {
   width: 100%;
   list-style-position: inside;
@@ -45,6 +49,7 @@
 @media screen 
   and (max-device-width: 939px){ 
     .dropzone{
+      padding:10px 10px;
       border: 1px solid rgba(11, 31, 53, .4);
       color:rgba(11, 31, 53, .95);
       text-align: center;
