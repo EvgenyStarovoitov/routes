@@ -33,21 +33,25 @@ export default class Modal extends React.Component {
   state = {
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.link.length > 0) {
-      const canvas = document.querySelector('.canvas__box');
-
-      QRCode.toCanvas(canvas, nextProps.link, (error) => {
-        if (error) {
-          console.error(error);
-        }
-      });
-    }
+  componentDidMount() {
+    this.renderQrcode();
   }
 
   handleOkClick = (event) => {
     if (this.props.onClick) {
       this.props.onClick(event);
+    }
+  };
+
+  renderQrcode = () => {
+    if (this.props.link.length > 0) {
+      const canvas = document.querySelector('.canvas__box');
+
+      QRCode.toCanvas(canvas, this.props.link, (error) => {
+        if (error) {
+          console.error(error);
+        }
+      });
     }
   };
 

@@ -13,6 +13,7 @@ export default class App extends React.Component {
   static propTypes = {
     renderFeebackForm: Type.func,
     renderModal: Type.func,
+    checkingWindow: Type.func,
     handleModalClick: Type.func
   };
 
@@ -78,31 +79,6 @@ export default class App extends React.Component {
       .then(data => data.json())
       .then(json => {
         if (json.msg !== undefined) {
-          if (json.msg !== undefined && files.length > 0) {
-            const form = new FormData();
-
-            files.map((value) => {
-              form.append('userFiles', value);
-            });
-            fetch(`${config.UrlApi  }${config.api.addFile}${json.msg}`, {
-              method: 'POST',
-              body:     form
-            })
-              .then(res => {
-                this.setState({ loaded:!this.state.loaded });
-                if (res.status !== 200) {
-                  console.log(`Oooops some problem.Status code:${res.status}`);
-                  return;
-                }
-                console.log(res);
-              })
-              .catch(e => {
-                console.log(e);
-              });
-            this.setState({
-              loaded:!this.state.loaded
-            });
-          }
           this.setState({
             responseAPI: { msg: json.msg }
           });
@@ -111,11 +87,42 @@ export default class App extends React.Component {
             responseAPI: { errorMsg: json.error }
           });
         }
+        return json;
+      })
+      .then(loadFiles => {
+        if (loadFiles.msg !== undefined && files.length > 0) {
+          const form = new FormData();
+
+          files.map((value) => {
+            form.append('userFiles', value);
+          });
+          this.setState({ loaded:!this.state.loaded });
+          fetch(`${config.UrlApi  }${config.api.addFile}${loadFiles.msg}`, {
+            method: 'POST',
+            body:     form
+          })
+            .then(res => {
+              if (res.status !== 200) {
+                console.log(`Oooops some problem.Status code:${res.status}`);
+                return;
+              }
+              this.setState({
+                loaded:!this.state.loaded,
+                isNoSendingForm: !this.state.isNoSendingForm
+              });
+              return res;
+            })
+            .catch(e => {
+              console.log(e);
+            });
+        } else {
+          this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
+          return loadFiles;
+        }
       })
       .catch((e) => {
         console.log(e);
       });
-    this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
   };
 
   handleModalClick = () => {
@@ -143,10 +150,9 @@ export default class App extends React.Component {
         />
       </div>
     );
-  }
+  };
 
   renderModal = () => {
-    console.log(this.state.responseAPI);
     return (
       <Modal
         textHeading = {this.state.responseAPI.msg !== null ? 'Ваше сообщение принято' : 'Ошибка'}
@@ -156,7 +162,7 @@ export default class App extends React.Component {
         onClick = {this.handleModalClick}
         link={this.state.responseAPI.msg !== null ?
           `${config.UrlApi}${config.api.getMessage}${this.state.responseAPI.msg}`
-          : ''}
+          : 'qweqweqe'}
         linkText='Нажмите чтоб перейти по ссылке'
       />
     );

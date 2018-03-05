@@ -7,15 +7,16 @@
 
 .dropzone__fileName{
   display: inline-block;
-  max-width: 200px;
+  max-width: 270px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-bottom: -6px;
 }
 
-@media screen 
+/* @media screen 
   and (min-device-width: 1200px){ 
     .dropzone__fileName{
       max-width: 350px;
     }
-}
+} */

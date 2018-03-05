@@ -149,6 +149,7 @@ export default class FeedbackForm extends React.Component {
         <FormField>
           <Heading
             size='m'
+            className='feedbackForm__heading'
           >
             Ваше сообщение
           </Heading>
@@ -197,7 +198,7 @@ export default class FeedbackForm extends React.Component {
                 className='dropzone__icon'
                 size='l'
               />
-              <span>Выберите файл</span>
+              <span className='dropzone__placeholder'>Выберите файл</span>
             </MediaQuery>
             }
           </Dropzone>
