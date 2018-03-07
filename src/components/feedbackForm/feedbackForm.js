@@ -141,7 +141,7 @@ export default class FeedbackForm extends React.Component {
   render() {
     const { message, destination } = this.state.formData;
     const isEnabled =
-    message.length > 7 &&
+    message.length > 10 &&
     destination > 0;
 
     return (

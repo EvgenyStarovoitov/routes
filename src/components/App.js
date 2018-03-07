@@ -18,12 +18,13 @@ export default class App extends React.Component {
   };
 
   state = {
-    isNoSendingForm: true,
     selectOption: [],
     responseAPI:{
       msg:null,
       errorMsg:null
     },
+    showForm: true,
+    showModal:false,
     loaded:false
   };
 
@@ -83,9 +84,7 @@ export default class App extends React.Component {
             responseAPI: { msg: json.msg }
           });
         } else {
-          this.setState({
-            responseAPI: { errorMsg: json.error }
-          });
+          return;
         }
         return json;
       })
@@ -96,7 +95,9 @@ export default class App extends React.Component {
           files.map((value) => {
             form.append('userFiles', value);
           });
-          this.setState({ loaded:!this.state.loaded });
+          this.setState({
+            showForm: !this.state.showForm,
+            loaded:!this.state.loaded });
           fetch(`${config.UrlApi  }${config.api.addFile}${loadFiles.msg}`, {
             method: 'POST',
             body:     form
@@ -104,11 +105,12 @@ export default class App extends React.Component {
             .then(res => {
               if (res.status !== 200) {
                 console.log(`Oooops some problem.Status code:${res.status}`);
+                this.setState({ responseAPI:{ msg: 'Сообщение добавлено но файл не загружен' } });
                 return;
               }
               this.setState({
                 loaded:!this.state.loaded,
-                isNoSendingForm: !this.state.isNoSendingForm
+                showModal: !this.state.showModal
               });
               return res;
             })
@@ -116,7 +118,6 @@ export default class App extends React.Component {
               console.log(e);
             });
         } else {
-          this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
           return loadFiles;
         }
       })
@@ -126,7 +127,10 @@ export default class App extends React.Component {
   };
 
   handleModalClick = () => {
-    this.setState({ isNoSendingForm: !this.state.isNoSendingForm });
+    this.setState({
+      showModal: !this.state.showModal,
+      showForm: !this.state.showForm
+    });
   };
 
   renderFeebackForm = () => {
@@ -142,11 +146,10 @@ export default class App extends React.Component {
 
   renderSpin = () => {
     return (
-      <div className='spin__box'>
+      <div>
         <Spin
           size='xl'
           visible={this.state.loaded}
-          className='spin__inner'
         />
       </div>
     );
@@ -159,11 +162,11 @@ export default class App extends React.Component {
         textMessange = {this.state.responseAPI.msg !== null ?
           'Результаты обращения вы можете узнать по ссылке или по QR-коду'
           : 'Упппс ваше сообщение не принято'}
-        onClick = {this.handleModalClick}
         link={this.state.responseAPI.msg !== null ?
           `${config.UrlApi}${config.api.getMessage}${this.state.responseAPI.msg}`
           : 'qweqweqe'}
         linkText='Нажмите чтоб перейти по ссылке'
+        onClick = {this.handleModalClick}
       />
     );
   };
@@ -173,7 +176,8 @@ export default class App extends React.Component {
       <div className='App'>
         <div className='App_inner'>
           {this.state.loaded ? this.renderSpin() : ''}
-          {this.state.isNoSendingForm ? this.renderFeebackForm() : this.renderModal()}
+          {this.state.showForm ? this.renderFeebackForm() : ''}
+          {this.state.showModal ? this.renderModal() : ''}
         </div>
       </div>
     );
