@@ -191,7 +191,7 @@ export default class FeedbackForm extends React.Component {
             maxSize={this.props.maxSizeFile}
           >
             {<MediaQuery query='(min-device-width: 940px)'>
-              <p>Перетяните файл для загрузки или нажмите для выбора файлов</p>
+              <p>Перетяните файлы для загрузки или нажмите для выбора файлов</p>
             </MediaQuery>}
             {<MediaQuery query='(max-device-width: 939px)'>
               <IconAttachment

@@ -19,13 +19,13 @@ export default class App extends React.Component {
 
   state = {
     selectOption: [],
-    responseAPI:{
-      msg:null,
-      errorMsg:null
+    responseAPI: {
+      msg: null,
+      errorMsg: null
     },
     showForm: true,
-    showModal:false,
-    loaded:false
+    showModal: false,
+    loaded: false
   };
 
   componentWillMount() {
@@ -86,6 +86,9 @@ export default class App extends React.Component {
         } else {
           return;
         }
+        this.setState({
+          showForm: !this.state.showForm
+        });
         return json;
       })
       .then(loadFiles => {
@@ -96,18 +99,12 @@ export default class App extends React.Component {
             form.append('userFiles', value);
           });
           this.setState({
-            showForm: !this.state.showForm,
             loaded:!this.state.loaded });
           fetch(`${config.UrlApi  }${config.api.addFile}${loadFiles.msg}`, {
             method: 'POST',
             body:     form
           })
             .then(res => {
-              if (res.status !== 200) {
-                console.log(`Oooops some problem.Status code:${res.status}`);
-                this.setState({ responseAPI:{ msg: 'Сообщение добавлено но файл не загружен' } });
-                return;
-              }
               this.setState({
                 loaded:!this.state.loaded,
                 showModal: !this.state.showModal
@@ -118,6 +115,9 @@ export default class App extends React.Component {
               console.log(e);
             });
         } else {
+          this.setState({
+            showModal: !this.state.showModal
+          });
           return loadFiles;
         }
       })
@@ -158,7 +158,7 @@ export default class App extends React.Component {
   renderModal = () => {
     return (
       <Modal
-        textHeading = {this.state.responseAPI.msg !== null ? 'Ваше сообщение принято' : 'Ошибка'}
+        textHeading = {this.state.responseAPI.msg !== null ? `Ваше сообщение ${this.state.responseAPI.msg} принято` : 'Ошибка'}
         textMessange = {this.state.responseAPI.msg !== null ?
           'Результаты обращения вы можете узнать по ссылке или по QR-коду'
           : 'Упппс ваше сообщение не принято'}
