@@ -1,7 +1,7 @@
 import React from 'react';
 import Type from 'prop-types';
 import QRCode from 'qrcode';
-import config from '../../../config.json';
+import config from '../../../../config.json';
 
 import Button from 'arui-feather/button';
 import Plate from 'arui-feather/plate';

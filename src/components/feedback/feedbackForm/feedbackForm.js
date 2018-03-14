@@ -12,7 +12,7 @@ import Button from 'arui-feather/button';
 import FormField from 'arui-feather/form-field';
 import { default as IconAttachment } from 'arui-feather/icon/action/attachment';
 import Dropzone from 'react-dropzone';
-import DropzoneItem from '../dropzoneItem/dropzoneItem';
+import DropzoneItem from './dropzoneItem/dropzoneItem';
 
 import MediaQuery from 'react-responsive';
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import Type from 'prop-types';
-// import fetch from 'node-fetch';
 
 import Button from 'arui-feather/button';
 import Textarea from 'arui-feather/textarea';
@@ -10,35 +9,31 @@ import { Row, Col } from 'react-flexbox-grid';
 
 export default class CommentForm extends React.Component {
   static propTypes = {
-    onClick:Type.func
+    onCloseClick:Type.func,
+    onSubmit:Type.func
   };
 
   static defaultProps = {
   };
 
   state = {
-    comment: {
-      name: '',
-      note: ''
-    }
-  };
-
-  handleName = (value) => {
-    this.setState({ comment:{ ...this.state.comment, name: value } });
+    comment: ''
   };
 
   handleNote = (value) => {
-    this.setState({ comment:{ ...this.state.comment, note: value } });
+    this.setState({ comment: value });
   };
 
   handleHideClick = (event) => {
-    if (this.props.onClick) {
-      this.props.onClick(event);
+    if (this.props.onCloseClick) {
+      this.props.onCloseClick(event);
     }
   };
 
   handleSend = () => {
-
+    if (this.props.onSubmit) {
+      this.props.onSubmit(this.state.comment);
+    }
   };
 
   render() {

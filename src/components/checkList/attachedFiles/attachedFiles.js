@@ -1,6 +1,6 @@
 import React from 'react';
 import Type from 'prop-types';
-import config from '../../../config.json';
+import config from '../../../../config.json';
 import { Row, Col } from '../grid/index';
 
 export default class AttachedFiles extends React.Component {

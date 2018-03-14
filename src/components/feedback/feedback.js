@@ -6,8 +6,8 @@ import config from '../../../config.json';
 import './feedback.css';
 
 import Spin from 'arui-feather/spin';
-import Modal from '../modal/index';
-import FeedbackForm from '../feedbackForm/index';
+import Modal from './modal/index';
+import FeedbackForm from './feedbackForm/index';
 
 export default class Feedback extends React.Component {
   static propTypes = {
