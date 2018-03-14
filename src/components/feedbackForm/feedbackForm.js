@@ -14,7 +14,6 @@ import { default as IconAttachment } from 'arui-feather/icon/action/attachment';
 import Dropzone from 'react-dropzone';
 import DropzoneItem from '../dropzoneItem/dropzoneItem';
 
-// import Attach from 'arui-feather/attach';
 import MediaQuery from 'react-responsive';
 
 export default class FeedbackForm extends React.Component {
@@ -182,6 +181,7 @@ export default class FeedbackForm extends React.Component {
             minRows={4}
             maxLength={8192}
             onChange={this.handleMessageValue}
+            hint='До 5 файлов, максимальный размер каждого файла 10мб'
           />
         </FormField>
         <FormField>

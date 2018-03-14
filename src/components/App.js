@@ -32,12 +32,10 @@ export default class App extends React.Component {
     fetch(`${config.UrlApi}${config.api.getListDestination}`)
       .then(res => {
         if (res.status !== 200) {
-          console.log(`Oooops some problem.Status code:${res.status}`);
-          return;
+          throw new Error(res.status);
         }
-        return res;
+        return res.json();
       })
-      .then(data => data.json())
       .then(json => {
         const result = json.map((curr, i) => {
           const obj = {};
@@ -72,12 +70,10 @@ export default class App extends React.Component {
     })
       .then(res => {
         if (res.status !== 200) {
-          console.log(`Oooops some problem.Status code:${res.status}`);
-          return;
+          throw new Error(res.status);
         }
-        return res;
+        return res.json();
       })
-      .then(data => data.json())
       .then(json => {
         if (json.msg !== undefined) {
           this.setState({
