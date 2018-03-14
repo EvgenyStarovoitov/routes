@@ -1,0 +1,22 @@
+.commentForm{
+  width: 350px;
+  text-align: center;
+  position: relative;
+  margin: auto auto;
+}
+.commentForm__closeButton{
+  position: absolute;
+  right:-15px;
+  top:5px;
+  z-index: 5;
+  cursor: pointer;
+}
+.commentForm__formField{
+  margin-bottom: 20px;
+}
+
+@media screen and (max-device-width:576px){
+  .commentForm{
+    width: 250px;
+  }
+}

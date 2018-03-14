@@ -1,11 +1,14 @@
 import React from 'react';
 import Type from 'prop-types';
 import QRCode from 'qrcode';
+import config from '../../../config.json';
 
 import Button from 'arui-feather/button';
 import Plate from 'arui-feather/plate';
 import Heading from 'arui-feather/heading';
 import Paragraph from 'arui-feather/paragraph';
+
+import { Link } from 'react-router-dom';
 
 export default class Modal extends React.Component {
   static propTypes = {
@@ -47,7 +50,7 @@ export default class Modal extends React.Component {
     if (this.props.link.length > 0) {
       const canvas = document.querySelector('.canvas__box');
 
-      QRCode.toCanvas(canvas, this.props.link, (error) => {
+      QRCode.toCanvas(canvas, `${config.UrlApi}${config.api.getMessage}${this.props.link}`, (error) => {
         if (error) {
           console.error(error);
         }
@@ -76,7 +79,7 @@ export default class Modal extends React.Component {
             {this.props.textMessange}
           </Paragraph>
           <Paragraph>
-            {this.props.link.length > 0 ? <a href={this.props.link}>{this.props.linkText}</a> : ''}
+            {this.props.link.length > 0 ? <Link to={`msg/${this.props.link}`}>{this.props.linkText}</Link> : ''}
           </Paragraph>
           {this.renderQrCanvas()}
           <Button

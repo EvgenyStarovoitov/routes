@@ -57,7 +57,11 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-dropzone": "^4.2.8",
+    "react-flexbox-grid": "^2.0.0",
     "react-responsive": "^4.0.4",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-router-server": "^4.2.3",
     "serve-favicon": "^2.4.5"
   }
 }
