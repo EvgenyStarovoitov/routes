@@ -135,6 +135,7 @@ export default class CheckList extends React.Component {
         <Button
           onClick={this.handleShowMessage}
           width='available'
+          className='button-send'
         >
           {!this.state.showCommentForm ? 'Добавить комментарий' : 'Скрыть'}
         </Button>

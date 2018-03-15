@@ -25,7 +25,7 @@ app
   .use(serveStatic(staticFolder))
   .use(compression());
 
-app.get('/', (req, res) => {
+app.use((req, res) => {
   let context = {}
   const componentHTML = ReactDOMServer.renderToString(
     <StaticRouter

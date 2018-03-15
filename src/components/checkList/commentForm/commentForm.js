@@ -53,6 +53,8 @@ export default class CommentForm extends React.Component {
             <Button
               text='Отправить'
               onClick={this.handleSend}
+              width='available'
+              className='button-send'
             />
           </Col>
           <button
