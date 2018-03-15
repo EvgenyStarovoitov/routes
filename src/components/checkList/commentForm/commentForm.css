@@ -2,21 +2,22 @@
   width: 350px;
   text-align: center;
   position: relative;
-  margin: auto auto;
+  margin: 30% auto;
 }
 .commentForm__closeButton{
   position: absolute;
-  right:-15px;
-  top:5px;
-  z-index: 5;
+  right:0px;
+  top:-25px;
+  z-index: 999;
   cursor: pointer;
 }
+
 .commentForm__formField{
   margin-bottom: 20px;
 }
 
 @media screen and (max-device-width:576px){
   .commentForm{
-    width: 250px;
+    width: 270px;
   }
 }

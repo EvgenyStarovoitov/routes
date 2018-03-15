@@ -4,16 +4,12 @@ import Type from 'prop-types';
 import Button from 'arui-feather/button';
 import Textarea from 'arui-feather/textarea';
 import { default as IconClose  } from 'arui-feather/icon/ui/close';
-// import { Row, Col } from '../grid/index';
 import { Row, Col } from 'react-flexbox-grid';
 
 export default class CommentForm extends React.Component {
   static propTypes = {
     onCloseClick:Type.func,
     onSubmit:Type.func
-  };
-
-  static defaultProps = {
   };
 
   state = {
@@ -38,7 +34,7 @@ export default class CommentForm extends React.Component {
 
   render() {
     return (
-      <div className={'commentForm'}>
+      <div className='commentForm'>
         <Row className='commentForm__formField'>
           <Col md={12} sm={12} xs={12}>
             <Textarea
@@ -59,13 +55,13 @@ export default class CommentForm extends React.Component {
               onClick={this.handleSend}
             />
           </Col>
+          <button
+            className='commentForm__closeButton'
+            onClick={this.handleHideClick}
+          >
+            <IconClose />
+          </button>
         </Row>
-        <button
-          className='commentForm__closeButton'
-          onClick={this.handleHideClick}
-        >
-          <IconClose />
-        </button>
       </div>
     );
   }

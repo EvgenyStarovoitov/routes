@@ -1,31 +1,28 @@
 .info{
   font-size: 18px;
-  padding-bottom: 25px;
+  padding: 0px 10px 25px;
 }
 
 .info__line > div:nth-child(2) > p {
   color: #2980B9;
 }
 
+.info__line:first-child{
+  padding: 0px 5px 5px 5px;
+}
+
 @media screen and (max-device-width:939px){
   .info{
     font-size: 20px;
-    padding-bottom: 10px;
   } 
-
   .info__line{
-    padding: 5px 0;
+    padding: 5px 10px 5px 10px;
     border-bottom: 1px solid grey;
-  }
-  .info__line:last-child{
-    margin-bottom: 10px;
   }
 }
 
 @media screen and (min-device-width:940px){
-  .info{
-  } 
   .info__line{
-    padding: 5px 0;
+    padding: 5px;
   }
 }

@@ -3,7 +3,7 @@ import Type from 'prop-types';
 
 import Paragraph from 'arui-feather/paragraph';
 
-import { Row, Col } from '../grid/index';
+import { Row, Col } from 'react-flexbox-grid';
 
 export default class TextMessage extends React.Component {
   static propTypes = {
@@ -12,15 +12,15 @@ export default class TextMessage extends React.Component {
 
   render() {
     return (
-      <Row>
-        <Col md={12}>
-          <div className='textMessage'>
+      <div className='textMessage'>
+        <Row>
+          <Col md={12} sm={12} xs={12}>
             <Paragraph>
               {this.props.message}
             </Paragraph>
-          </div>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

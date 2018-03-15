@@ -16,9 +16,6 @@ import CommentList from './commentList/index';
 
 export default class CheckList extends React.Component {
   static propTypes = {
-    idmsg: Type.string,
-    message:Type.string,
-    link:Type.string,
     handleShowMessage: Type.func,
     match:Type.object
   };
@@ -114,7 +111,7 @@ export default class CheckList extends React.Component {
 
   renderCheckList = () => {
     return (
-      <Grid>
+      <Grid fluid>
         <Info
           link={`${config.UrlApi}${config.api.getMessage}${this.props.match.params.id}`}
           idmsg={this.props.match.params.id}
@@ -132,27 +129,25 @@ export default class CheckList extends React.Component {
             files={this.state.files}
           /> : ''
         }
+        <CommentList
+          comments={this.state.comments}
+        />
         <Button
           onClick={this.handleShowMessage}
           width='available'
         >
           {!this.state.showCommentForm ? 'Добавить комментарий' : 'Скрыть'}
         </Button>
-        <CommentList
-          comments={this.state.comments}
-        />
       </Grid>
     );
   };
 
   renderCommentForm = () => {
     return (
-      <Grid>
-        <CommentForm
-          onCloseClick={this.handleShowMessage}
-          onSubmit={this.handleNewComment}
-        />
-      </Grid>
+      <CommentForm
+        onCloseClick={this.handleShowMessage}
+        onSubmit={this.handleNewComment}
+      />
     );
   };
 

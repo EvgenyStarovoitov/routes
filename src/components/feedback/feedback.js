@@ -135,14 +135,14 @@ export default class Feedback extends React.Component {
         onSubmit = {this.handleDataFromForm}
         selectOption={this.state.selectOption.length > 0 ? this.state.selectOption : undefined}
         maxFiles={5}
-        maxSizeFile={1e+10}
+        maxSizeFile={1e+7}// 1e+7 Равняется 10мб
       />
     );
   };
 
   renderSpin = () => {
     return (
-      <div>
+      <div className='spinLoading'>
         <Spin
           size='xl'
           visible={this.state.loaded}
