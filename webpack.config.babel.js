@@ -10,7 +10,7 @@ const jsName             = process.env.NODE_ENV === 'production' ? 'bundle-[hash
 module.exports = {
   entry: ['babel-polyfill', './src/client.js'],
   plugins: [
-    new CleanWebpackPlugin([ 'dist' ]),
+    new CleanWebpackPlugin([ 'dist/*.js','dist/*.css' ]),
     new ExtractTextPlugin({
       filename: cssName,
       disable: false,

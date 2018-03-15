@@ -34,7 +34,7 @@ export default class Info extends React.Component {
     if (this.props.link.length > 0) {
       const canvas = document.querySelector('.canvas__box');
 
-      QRCode.toCanvas(canvas, this.props.link, { width:170, margin:1 }, (error) => {
+      QRCode.toCanvas(canvas, this.props.link, { width:186, margin:1 }, (error) => {
         if (error) {
           console.error(error);
         }
@@ -46,7 +46,7 @@ export default class Info extends React.Component {
     return (
       <div className='info'>
         <Row start='md' center='xs'>
-          <Col md={3} sm={12} xs={12}>
+          <Col md={4} sm={12} xs={12}>
             <canvas className='canvas__box' />
           </Col>
           <Col md={9} sm={12} xs={12}>

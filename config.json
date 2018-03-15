@@ -1,6 +1,6 @@
 {
-  "UrlClient" :"http://127.0.0.1:3001",
-  "UrlApi": "http://127.0.0.1:3000",
+  "UrlApi": "http://feedback.servolux.com:3000",
+  "UrlSite":"http://feedback.servolux.com",
   "api":{
     "getListDestination": "/destination",
     "addMessage": "/msg/add",
