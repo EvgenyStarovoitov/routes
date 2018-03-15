@@ -106,7 +106,13 @@ export default class CheckList extends React.Component {
   convertDate = (date) => {
     const utcDate = new Date(date);
 
-    return utcDate.toLocaleDateString('en-GB');
+    return utcDate.toLocaleDateString('en-GB', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+    });
   };
 
   renderCheckList = () => {

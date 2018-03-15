@@ -23,8 +23,7 @@ export default class CommentsList extends React.Component {
       month: 'numeric',
       day: 'numeric',
       hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric'
+      minute: 'numeric'
     });
   };
 
