@@ -113,7 +113,7 @@ export default class CheckList extends React.Component {
     return (
       <Grid fluid>
         <Info
-          link={`${config.UrlApi}${config.api.getMessage}${this.props.match.params.id}`}
+          link={`${config.UrlSite}${config.api.getMessage}${this.props.match.params.id}`}
           idmsg={this.props.match.params.id}
           date={this.state.date}
           destination={this.state.destination}
